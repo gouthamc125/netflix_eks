@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netflix-deployment
+spec:
+  replicas: 1  # Number of desired replicas
+  selector:
+    matchLabels:
+      app: netflix
+  template:
+    metadata:
+      labels:
+        app: netflix
+    spec:
+      containers:
+      - name: netflix
+        image: gouthamc125/netflix:v1
+        ports:
+        - containerPort: 80  # Port your application listens on
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netflix-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: uber
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
